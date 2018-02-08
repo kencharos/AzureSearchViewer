@@ -1,34 +1,48 @@
 # azure-search-viewer
 
-Azure search viewer and update documents.
 
-## preparation
-
-allow CORS setting in your azure search index.
+Azure search document viewer and update/ remove documents. 
+This is node.js server application.
 
 ## useage
 
-1. input azure search endpoint and key and index.
-2. input search condtion
-3. press search button
-4. if you update document, input json value to update area and press update button.
+1. `npm install`
+2. change settings.json with your azure search URL and key.
+    + this also uses multiple azure search services.
+3. run `node server.js`
+4. access http://localhost:1337/
 
-## Notice 
+## (option )Deploy to azure
 
-Update cannot execute!
+this app run web apps with AAD(Authorization/Aithentication),
 
-I'm going to update it after.
+refs: https://docs.microsoft.com/ja-jp/azure/app-service/app-service-web-get-started-nodejs
 
-## Build Setup
+1. archive and uplod zip
 
-``` bash
-# install dependencies
-npm install
+2. run command in azure cli
 
-# serve with hot reload at localhost:8080
-npm run dev
+```
+az webapp deployment source config-zip --resource-group <your resource group> --name <your app ame> --src <zip>
+```
 
-# build for production with minification
-npm run build
+if web.config doesn't exits. make web.config follwing
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <system.webServer>
+    <handlers>
+      <add name="node-application" path="server.js" verb="*" modules="iisnode" />
+    </handlers>
+    <rewrite>
+      <rules>
+        <rule name="node-application">
+          <action type="Rewrite" url="server.js" />
+        </rule>
+      </rules>
+    </rewrite>
+  </system.webServer>
+</configuration>
 ```
 

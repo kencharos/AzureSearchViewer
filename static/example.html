@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <title>sample view in Apps and AAD authentication</title>
+  </head>
+  <body>
+      <button id="button" >hello</button>
+      <div id="hello"></div>
+
+      
+    <script>
+      function hello(){
+        // need `credentials: 'include'` in Azure apps with AAD, for sending cookie.
+          window.fetch("/api/hello",{ mode: 'cors',credentials: 'include' }).then(res => res.json())
+          .then(res => document.getElementById("hello").innerHTML = res);
+      }
+      document.getElementById("button").onclick = hello
+      </script>
+  </body>
+</html>

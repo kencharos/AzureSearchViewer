@@ -1,0 +1,11 @@
+{
+    "service1":{
+        "url":"<your azrue search url>",
+        "key":"<azure search key>"
+    },
+    
+    "service2":{
+        "url":"<your azrue search url>",
+        "key":"<azure search key>"
+    }
+}
