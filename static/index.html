@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    
     <meta charset="utf-8">
     <title>Azure search viewer</title>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" rel="stylesheet" />
   </head>
   <body>
       
-  <div id="app">
-    <div>
-      <h3>connection</h3>
+  <div id="app" class="container">
+      <h4>connection</h4>
+    <div class="row">
       AzureSearch Service:
        <select v-model="service" @change="getIndex">
           <option value="" >-services-</option>
@@ -27,24 +27,54 @@
       </select>
     </div>
 
+    <h4>Query</h4>
+      
+    <div class="row">
+      <div class="one-half column">
+      search:<input v-model="search" class="u-full-width" >
+      </div>
+      <div class="one-half column">
+      filter:<input v-model="filter" class="u-full-width" >
+      </div>
     <div>
-      <h3>condition</h3>
-      search:<input v-model="search" size="20">
-      filter:<input v-model="filter" size="40"><br>
-      count: true:<input type="radio" v-model="count" value="true"> false:<input type="radio" v-model="count" value="false"><br>
-      top:<input v-model="top" size="5" number> skip:<input v-model="skip" size="5" number>
-      orderby:<input v-model="orderby" size="15">
-      <button @click="onSearch">Search</button><br>
-      <button @click="onUpdate">update documents by right pane</button> 
-      <button @click="onDelete">delete documents by right pane</button> 
-      <span>{{updateResult}}</span>
+    <div class="row">
+      <div class="three columns">
+        count: true <input type="radio" v-model="count" value="true"> false <input type="radio" v-model="count" value="false"><br>
+      </div>
+      <div class="two columns">
+      top:<input v-model="top" size="4" number>
+      </div>
+      <div class="two columns">
+        skip:<input v-model="skip" size="4" number>
+      </div>
+      <div class="four columns">
+        orderby:<input v-model="orderby" size="20">
+      </div>
+    </div>
+    <div class="row">
+      <div class="one-half column">
+        facet:<input v-model="facet" size="40">
+      </div>
+      <div class="one-half column">
+        other query: <input v-model="other" size="40" placeholder="other query is here, input json format."> 
+      </div>
+    </div>
+    <div class="row">
+      message: <span>{{updateResult}}</span>
     </div>
 
-    <div>
-      <textarea  style="width:700px;height:500px;" v-model="results"></textarea>
-      <textarea  style="width:700px;height:500px;" v-model="updateDocuments"></textarea>
+    <div class="row">
+      
+      <div class="one-half column">
+          <button class="button-primary" @click="onSearch">Search</button><br>
+         <textarea   class="u-full-width" style="height:500px;" v-model="results"></textarea>
+      </div>
+      <div class="one-half column">
+          <button class="button-primary" @click="onUpdate">update documents</button> 
+          <button class="button-primary" @click="onDelete">delete documents</button> <br>
+         <textarea  class="u-full-width" style="height:500px;" v-model="updateDocuments"></textarea>
+      </div>
     </div>
-
   </div>
   </body>
   

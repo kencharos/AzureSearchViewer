@@ -8,8 +8,9 @@ var app = new Vue({
     index:'',
     search:'',
     filter:'',
+    facet:'',
     count:"false",
-    top:100,
+    top:10,
     skip:0,
     orderby:'',
     other:'',
@@ -46,15 +47,21 @@ var app = new Vue({
       
     },
     onSearch: function() {
-      this.updateResult ="";
+      this.updateResult ="execute search documents...";
       let noemp = str => str != null && str.length > 0
       let query = {}
       if (noemp(this.search)) query.search = (this.search)
       if (noemp(this.filter)) query.filter = (this.filter)
+      if (noemp(this.facet)) query.facet = (this.facet)
       if ("true" === this.count) query.count = true
       if (noemp(this.orderby)) query.orderby = this.orderby
       query.top = this.top-0;
       query.skip = this.skip-0;
+
+      if (noemp(this.other)) {
+        let json = JSON.parse(this.other);
+        Object.keys(this.other).forEach(key => query[key] = this.other[key])
+      }
 
       
       window.fetch(`/api/services/${this.service}/${this.index}/search`,
@@ -65,13 +72,15 @@ var app = new Vue({
       .then(res => {
         this.results = JSON.stringify(res, null, " ")
         this.updateDocuments = JSON.stringify(res.value, null, " ")
+        
+         this.updateResult =`fetch ${res.value.length} documents.`;
       }).catch(e => this.updateResult = JSON.stringify(e))
 
     },
 
     onUpdate: function() {
       
-      this.updateResult ="updateing";
+      this.updateResult ="execute update documents..";
       window.fetch(`/api/services/${this.service}/${this.index}/update`,
       { mode: 'cors',credentials: 'include', method:"POST", 
         headers:{"Content-Type": "application/json"},body:this.updateDocuments })
@@ -83,7 +92,7 @@ var app = new Vue({
     
     onDelete: function() {
       
-      this.updateResult ="deleteing";
+      this.updateResult ="execute delete documents..";
       window.fetch(`/api/services/${this.service}/${this.index}/delete`,
       { mode: 'cors',credentials: 'include', method:"POST", 
         headers:{"Content-Type": "application/json"},body:this.updateDocuments })
